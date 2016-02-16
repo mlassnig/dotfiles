@@ -1,0 +1,13 @@
+[user]
+	name = Mario Lassnig
+	email = mario@lassnig.net
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	fap = fetch --all --prune
+[color]
+	ui = true
+[http]
+	sslCert = /home/mario/.ssh/usercert.pem
+	sslKey = /home/mario/.ssh/userkey.pem
+[push]
+	default = simple

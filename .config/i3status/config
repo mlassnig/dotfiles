@@ -1,0 +1,47 @@
+general {
+        colors = true
+        color_good = "#ccffcc"
+        color_bad = "#ffcccc"
+        interval = 5
+}
+
+order += "volume master"
+order += "disk /"
+order += "wireless wlan0"
+order += "ethernet eth0"
+order += "battery 0"
+order += "load"
+order += "tztime local"
+
+wireless wlan0 {
+        format_up = "%essid: %ip [%quality]"
+        format_down = "WiFi down"
+}
+
+ethernet eth0 {
+        format_up = "%ip: %speed"
+        format_down = "Ethernet down"
+}
+
+volume master {
+       format = "♪: %volume"
+       format_muted = "♪: Muted"
+       device = "pulse"
+}
+
+battery 0 {
+	format = "%status: %percentage %remaining"
+	integer_battery_capacity = true
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M"
+}
+
+load {
+        format = "CPU: %1min"
+}
+
+disk "/" {
+        format = "HDD: %avail Free"
+}

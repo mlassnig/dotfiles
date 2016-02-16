@@ -1,0 +1,45 @@
+autocmd!
+
+set encoding=utf-8
+
+syntax on
+
+filetype off
+
+set showtabline=2
+set backspace=indent,eol,start
+set history=50
+set wildmode=list:longest,full
+set shortmess+=r
+set showmode
+set showcmd
+set showmatch
+set ruler
+set nocompatible
+set nomodeline
+set tabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+set smarttab
+set smartindent
+set smartcase
+set incsearch
+set numberwidth=4
+set nowrap
+set guioptions-=T
+set paste
+set whichwrap=<,>,[,]
+
+let mapleader = "t"
+map <Leader><Up> :tabnew<CR>
+map <Leader><Down> :tabclose<CR>
+map <Leader><Left> :tabprev<CR>
+map <Leader><Right> :tabnext<CR>
+
+:command C let @/=""
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+call vundle#end()
+filetype plugin indent on
