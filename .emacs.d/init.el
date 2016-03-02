@@ -96,3 +96,7 @@
 (delete-selection-mode 1)
 
 (load "~/.ssh/emacs.secrets")
+
+(defun org-archive-done-entries ()
+  (interactive)
+  (org-map-entries 'org-archive-subtree "/DONE" 'file))
