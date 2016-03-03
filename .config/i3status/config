@@ -1,7 +1,8 @@
 general {
         colors = true
-        color_good = "#ccffcc"
-        color_bad = "#ffcccc"
+	color_good = "#aaffaa"
+	color_degraded = "#ffffaa"
+	color_bad = "#ffaaaa"
         interval = 5
 }
 
@@ -10,6 +11,7 @@ order += "disk /"
 order += "wireless wlan0"
 order += "ethernet eth0"
 order += "battery 0"
+order += "battery 1"
 order += "load"
 order += "tztime local"
 
@@ -30,8 +32,23 @@ volume master {
 }
 
 battery 0 {
-	format = "%status: %percentage %remaining"
+	format = "Battery 0: %percentage %remaining [%status]"
 	integer_battery_capacity = true
+	hide_seconds = true
+	path = "/sys/class/power_supply/BAT0/uevent"
+	status_bat = "Drain"
+	status_chr = "Charge"
+	status_full = "Full"
+}
+
+battery 1 {
+	format = "Battery 1: %percentage %remaining  [%status]"
+	integer_battery_capacity = true
+	hide_seconds = true
+	path = "/sys/class/power_supply/BAT1/uevent"
+	status_bat = "Drain"
+	status_chr = "Charge"
+	status_full = "Full"
 }
 
 tztime local {
