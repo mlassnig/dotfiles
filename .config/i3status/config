@@ -32,23 +32,17 @@ volume master {
 }
 
 battery 0 {
-	format = "Battery 0: %percentage %remaining [%status]"
+	format = "Battery 0: %percentage %remaining"
 	integer_battery_capacity = true
 	hide_seconds = true
 	path = "/sys/class/power_supply/BAT0/uevent"
-	status_bat = "Drain"
-	status_chr = "Charge"
-	status_full = "Full"
 }
 
 battery 1 {
-	format = "Battery 1: %percentage %remaining  [%status]"
+	format = "Battery 1: %percentage %remaining"
 	integer_battery_capacity = true
 	hide_seconds = true
 	path = "/sys/class/power_supply/BAT1/uevent"
-	status_bat = "Drain"
-	status_chr = "Charge"
-	status_full = "Full"
 }
 
 tztime local {
