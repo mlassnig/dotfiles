@@ -84,9 +84,9 @@ bar {
         tray_output primary
 }
 
-bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 0 -- '-5%'
-bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- '+5%'
-bindsym XF86AudioMute exec /usr/bin/pactl set-sink-volume 0 0
+bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 0 -- '-5%' && killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- '+5%' && killall -SIGUSR1 i3status
+bindsym XF86AudioMute exec /usr/bin/pactl set-sink-volume 0 0 && killall -SIGUSR1 i3status
 bindsym XF86MonBrightnessUp exec /usr/bin/xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 10
 
@@ -96,4 +96,4 @@ bindsym Control+$mod+l exec i3lock -c 000000 -d -I 5 -e &
 for_window [class="^Steam$"] floating enable
 
 exec /usr/bin/xsetroot -bg black
-exec xrandr --output eDP1 --auto --left-of DP1-8 --output DP1-8 --left-of DP1-1-8 --primary
+exec xrandr --output VIRTUAL1 --off --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1 --off --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal --output HDMI1 --off --output DP1-1-1 --off --output HDMI2 --off --output DP1-1 --off --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary --output DP2 --off
