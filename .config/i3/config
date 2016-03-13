@@ -13,6 +13,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false" -e /usr/bin/tmux
+bindsym $mod+Shift+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -80,8 +81,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # finds out, if available)
 bar {
 	font pango:DejaVu Sans Bold 9
-        status_command i3status
-        tray_output primary
+    status_command i3status
+    tray_output primary
 }
 
 bindsym XF86AudioLowerVolume exec /usr/bin/pactl -- set-sink-volume 0 -5% && killall -SIGUSR1 i3status
@@ -92,9 +93,8 @@ bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 10
 
 bindsym Control+$mod+l exec i3lock -c 000000 -d -I 5 -e &
 
-#for_window [class="[.]*"] floating enable
-for_window [class="^Steam$"] floating enable
-
 exec /usr/bin/xsetroot -bg black
-exec xrandr --output VIRTUAL1 --off --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1 --off --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal --output HDMI1 --off --output DP1-1-1 --off --output HDMI2 --off --output DP1-1 --off --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary --output DP2 --off
 exec /usr/bin/setxkbmap -option ctrl:nocaps
+
+exec /usr/bin/test $HOSTNAME = fozzie  && /usr/bin/xrandr --output HDMI-0 --primary --mode 1920x1080 --rotate normal
+exec /usr/bin/test $HOSTNAME = spectre && /usr/bin/xrandr --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary
