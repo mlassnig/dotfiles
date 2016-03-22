@@ -95,6 +95,7 @@ bindsym Control+$mod+l exec i3lock -c 000000 -d -I 5 -e
 
 exec_always /usr/bin/xsetroot -bg black
 exec_always /usr/bin/setxkbmap -option ctrl:nocaps
+exec_always /usr/bin/synclient TouchpadOff=1
 exec_always /bin/bash -c "/usr/bin/test `/bin/hostname` = spectre && notify-send 'welcome to spectre' && /usr/bin/xrandr --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary"
 exec_always /bin/bash -c "/usr/bin/test `/bin/hostname` = fozzie && notify-send 'welcome to fozzie' && /usr/bin/xrandr --output HDMI-0 --primary --mode 1920x1080 --rotate normal"
 exec /usr/bin/clipit -d -n
