@@ -12,8 +12,10 @@ font pango:DejaVu Sans Mono Bold 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/xterm -fa "DejaVu Sans Mono" -fs 9 -fg grey -ls -e /usr/bin/tmux -2
-bindsym $mod+Shift+Return exec /usr/bin/xterm -fa "DejaVu Sans Mono" -fs 9 -fg grey -ls -e /bin/bash
+bindsym $mod+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false" -e /usr/bin/tmux
+bindsym $mod+Shift+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false"
+#bindsym $mod+Return exec /usr/bin/xterm -fa "DejaVu Sans Mono" -fs 9 -fg grey -ls -e /usr/bin/tmux -2
+#bindsym $mod+Shift+Return exec /usr/bin/xterm -fa "DejaVu Sans Mono" -fs 9 -fg grey -ls -e /bin/bash
 
 # kill focused window
 bindsym $mod+Shift+q kill
