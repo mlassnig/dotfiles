@@ -97,6 +97,7 @@ bindsym Control+$mod+l exec i3lock -c 000000 -d -I 5 -e
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
+for_window [window_role="About"] floating enable
 
 exec_always /usr/bin/xsetroot -bg black
 exec_always /usr/bin/setxkbmap -option ctrl:nocaps
