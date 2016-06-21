@@ -21,7 +21,7 @@ bindsym $mod+Shift+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -b -p "execute >>>"
 
 bindsym Shift+$mod+Left focus left
 bindsym Shift+$mod+Right focus right
@@ -103,7 +103,7 @@ exec_always /usr/bin/xsetroot -bg black
 exec_always /usr/bin/setxkbmap -option ctrl:nocaps
 exec_always /usr/bin/setxkbmap -layout us -option compose:ralt
 exec_always /usr/bin/synclient TouchpadOff=1
-exec_always /bin/bash -c "/usr/bin/test `/bin/hostname` = spectre && notify-send 'welcome to spectre' && /usr/bin/xrandr --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary"
+exec_always /bin/bash -c "/usr/bin/test `/bin/hostname` = spectre && notify-send 'welcome to spectre' && /usr/bin/xrandr --output eDP1 --mode 1920x1080 --pos 0x360 --rotate normal --output DP1-8 --mode 2560x1440 --pos 1920x0 --rotate normal --primary --output DP1-1-8 --mode 2560x1440 --pos 4480x0 --rotate normal"
 exec_always /bin/bash -c "/usr/bin/test `/bin/hostname` = fozzie && notify-send 'welcome to fozzie' && /usr/bin/xrandr --output HDMI-0 --primary --mode 1920x1080 --rotate normal"
 exec /usr/bin/clipit -d -n
 exec /usr/bin/xautolock -time 5 -locker "i3lock -c 000000 -d -I 5 -e" -detectsleep &
