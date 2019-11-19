@@ -1,6 +1,9 @@
 ;; Packaging
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; Eye candy
 (load-theme 'wombat)
@@ -9,14 +12,12 @@
   (set-frame-font "DejaVu Sans Mono 10")
   (tooltip-mode -1)
   (tool-bar-mode -1))
-(require 'all-the-icons)
 
 ;; Global minor modes and configuration
 (column-number-mode t)
 (delete-selection-mode 1)
 (global-font-lock-mode t)
 (line-number-mode t)
-(projectile-mode t)
 (show-paren-mode t)
 (transient-mark-mode t)
 (toggle-scroll-bar -1)
@@ -91,21 +92,9 @@
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-n") 'new-scratchpad)
 
-;; Programming
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
-
-(defun my-c-mode-hook ()
-  (setq
-   c-default-style "linux"
-   c-basic-offset 8
-   indent-tabs-mode nil
-   copmany-tooltip-align-assignment t
-   lsp-enable-snippet nil
-   gdb-many-windows t
-   gdb-show-main t))
-(add-hook 'c-mode-hook 'my-c-mode-hook)
-(add-hook 'c++-mode-hook 'my-c-mode-hook)
+;; Global configuration
+(defalias 'yes-or-no-p 'y-or-n-p)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Custom functions
 (defun new-scratchpad ()
@@ -113,25 +102,35 @@
   (interactive)
   (switch-to-buffer (concat "scratch-" (number-to-string (abs (random))))))
 
-;; Aliases
-(defalias 'yes-or-no-p 'y-or-n-p)
+;; Use packages
+(require 'use-package)
 
-;; Hooks
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(use-package auto-package-update
+  :ensure t
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
 
-;; Automatically handled by package management
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet flycheck-clang-analyzer flycheck-clang-tidy flycheck-clangcheck flycheck-color-mode-line company-box all-the-icons company-lsp dap-mode flymake-cppcheck json-mode company flycheck lsp-ui lsp-mode cmake-mode projectile))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-;;; init.el ends here
+(use-package yasnippet
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :hook (prog-mode . lsp))
+
+(use-package lsp-ui
+  :ensure t)
+
+(use-package company
+  :ensure t)
+
+(use-package company-lsp
+  :ensure t)
+
+(use-package treemacs
+  :ensure t)
+
+(use-package lsp-treemacs
+  :ensure t)
+;;

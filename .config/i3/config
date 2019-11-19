@@ -12,8 +12,9 @@ font pango:DejaVu Sans Mono Bold 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false" -e /usr/bin/tmux
-bindsym $mod+Shift+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false"
+bindsym $mod+Return exec /usr/bin/xterm -fa "DejaVu Sans Mono" -fs 9 -bg black -fg grey -ls -sl 0 -xrm "XTerm*metaSendsEscape:true" -geometry 256x64 -e "(export TERM=xterm-256color; /bin/bash)"
+#bindsym $mod+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false" -e /usr/bin/tmux
+#bindsym $mod+Shift+Return exec /usr/bin/urxvt -tn "xterm-256color" -C -cd "/home/mario" -bg black -fg grey -fn "xft:DejaVuSansMono:pixelsize=12" -letsp -1 -sl 99999 -sbg +ut -xrm "URxvt*scrollBar: false"
 
 # kill focused window
 bindsym $mod+Shift+q kill
