@@ -58,6 +58,7 @@
 (prefer-coding-system 'utf-8)
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
+(require 'ansi-color)
 
 ;;; Backup
 (setq
