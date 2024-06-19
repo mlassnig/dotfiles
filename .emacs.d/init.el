@@ -47,6 +47,7 @@
  inhibit-startup-echo-area-message t
  inhibit-startup-screen t
  initial-scratch-message nil
+ package-native-compile t
  require-final-newline t
  scroll-conservatively 1
  scroll-preserve-screen-position t
