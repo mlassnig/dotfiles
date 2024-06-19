@@ -24,7 +24,7 @@
 (load-theme 'wombat)
 (menu-bar-mode -1)
 (when window-system
-  (set-frame-font "DejaVuSansM Nerd Font 10")
+  (set-frame-font "Hack Nerd Font 10")
   (setq frame-resize-pixelwise t)
   (tooltip-mode -1)
   (tool-bar-mode -1))
@@ -297,7 +297,7 @@
 	centaur-tabs-set-close-button nil
 	centaur-tabs-cycle-scope 'tabs
 	centaur-tabs-show-new-tab-button nil)
-  (centaur-tabs-change-fonts "DejaVuSansM Nerd Font" 100)
+  (centaur-tabs-change-fonts "Hack Nerd Font" 100)
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   :bind
