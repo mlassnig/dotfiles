@@ -24,7 +24,7 @@
 (load-theme 'wombat)
 (menu-bar-mode -1)
 (when window-system
-  (set-frame-font "Hack Nerd Font 10")
+  (set-frame-font "Hack Nerd Font Mono 10")
   (setq frame-resize-pixelwise t)
   (tooltip-mode -1)
   (tool-bar-mode -1))
@@ -40,6 +40,7 @@
 (toggle-scroll-bar -1)
 (setq
  enable-recursive-minibuffers t
+ dired-kill-when-opening-new-dired-buffer t
  font-lock-maximum-decoration t
  history-length 999
  gdb-many-windows t
@@ -52,7 +53,8 @@
  scroll-conservatively 1
  scroll-preserve-screen-position t
  scroll-step 1
- tab-width 8)
+ tab-width 8
+ uniquify-buffer-name-style 'forward)
 (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete)
 (pixel-scroll-precision-mode)
 
@@ -147,7 +149,9 @@
   (setq auto-package-update-hide-results t))
 
 (use-package nerd-icons
-  :ensure t)
+  :ensure t
+  :custom
+  (nerd-icons-font-family "Symbols Nerd Font Mono"))
 ;;(nerd-icons-install-fonts t)
 
 (use-package nerd-icons-dired
@@ -167,6 +171,7 @@
   :config
   (setq c-ts-mode-indent-offset 4
 	c-ts-mode-indent-style 'linux))
+;;(treesit-auto-install-all)
 
 (defun my/treemacs ()
   (interactive)
@@ -194,6 +199,9 @@
   :ensure t)
 
 (use-package ag
+  :ensure t)
+
+(use-package auctex
   :ensure t)
 
 (use-package projectile
@@ -297,7 +305,7 @@
 	centaur-tabs-set-close-button nil
 	centaur-tabs-cycle-scope 'tabs
 	centaur-tabs-show-new-tab-button nil)
-  (centaur-tabs-change-fonts "Hack Nerd Font" 100)
+  (centaur-tabs-change-fonts "Hack Nerd Font Mono" 100)
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   :bind
@@ -350,7 +358,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(centaur-tabs company-capf treesit-auto clang-format nerd-icons-completion awesome-tab treemacs-magit perspective ag tree-sitter-langs tree-sitter git-gutter yascroll yascroll-el nerd-icons-dired treemacs-icons-dired treemacs-projectile lsp-ivy lsp-treemacs lsp-ui lsp flycheck doom-modeline magit company ivy projectile treemacs-nerd-icons treemacs nerd-icons auto-package-update)))
+   '(preview-latex centaur-tabs dap-mode shackle clang-format lsp-treemacs lsp-ui lsp-mode flycheck-clang-tidy flycheck doom-modeline company yasnippet treemacs-projectile projectile ag treemacs-magit treemacs-nerd-icons treemacs treesit-auto nerd-icons-completion nerd-icons-dired nerd-icons auto-package-update git-gutter)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
