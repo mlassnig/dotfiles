@@ -39,6 +39,7 @@
 (transient-mark-mode t)
 (toggle-scroll-bar -1)
 (setq
+ create-lockfiles nil
  enable-recursive-minibuffers t
  dired-kill-when-opening-new-dired-buffer t
  font-lock-maximum-decoration t
@@ -54,7 +55,9 @@
  scroll-preserve-screen-position t
  scroll-step 1
  tab-width 8
- uniquify-buffer-name-style 'forward)
+ tab-always-indent 'complete
+ uniquify-buffer-name-style 'forward
+ use-dialog-box nil)
 (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete)
 (pixel-scroll-precision-mode)
 
@@ -170,7 +173,8 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   :config
   (setq c-ts-mode-indent-offset 4
-	c-ts-mode-indent-style 'linux))
+	c-ts-mode-indent-style 'linux
+	treesit-font-lock-level 4))
 ;;(treesit-auto-install-all)
 
 (defun my/treemacs ()
@@ -210,29 +214,19 @@
   (projectile-mode +1)
   :config
   (setq projectile-project-search-path '("~/dev/")
-        compilation-scroll-output 't
-	projectile-project-configure-cmd "cmake -B build -S ."
-	;;projectile-project-compilation-cmd "cmake --build build"
-	projectile-project-compilation-cmd "make"
-	projectile-project-run-cmd "cd build; ./main-gcc; cd .."
-	projectile-project-test-cmd "gdb --cd build/ -im ./main-cc")
+        compilation-scroll-output 't)
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
 
 (use-package treemacs-projectile
   :ensure t)
 
-(when window-system
-  ;; slow in terminal
-  (use-package yascroll
-    :ensure t
-    :config
-    (global-yascroll-bar-mode t)))
+(use-package yascroll
+  :ensure t)
+;  :config
+;  (global-yascroll-bar-mode t))
 
 (use-package yasnippet
-  :ensure t)
-
-(use-package company
   :ensure t)
 
 (use-package magit
@@ -288,14 +282,19 @@
 			 :align below
 			 :size 10))))
 
-(use-package dap-mode
+(use-package dape
   :ensure t
-  :custom
-  (dap-auto-configure-mode)
   :config
-  (require 'dap-cpptools)
+  (dape-breakpoint-global-mode)
+  (setq dape-buffer-window-arrangement 'right
+	dape-inlay-hints t
+	dape-cwd-function 'projectile-project-root)
+  (add-hook 'dape-compile-hook 'kill-buffer)
+  (add-hook 'dape-display-source-hook 'pulse-momentary-highlight-one-line)
   :bind
-  ("<f10>" . dap-next))
+  ("<f10>" . dape)
+  ("<f11>" . dape-next)
+  ("<f12>" . dape-continue))
 
 (use-package centaur-tabs
   :ensure t
@@ -313,14 +312,13 @@
   ("C-<next>" . centaur-tabs-forward))
 (centaur-tabs-mode t)
 
-(dap-register-debug-template
-  "build/main-gcc"
-  (list :type "cppdbg"
-        :request "launch"
-        :name "build/main-gcc"
-        :MIMode "gdb"
-        :program "${workspaceFolder}/build/main-gcc"
-        :cwd "${workspaceFolder}/build"))
+(use-package company
+  :ensure t
+  :hook (prog-mode . company-mode)
+  :config
+  (setq lsp-completion-provider :capf)
+  :custom
+  (company-tooltip-align-annotations t))
 
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
@@ -357,8 +355,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(preview-latex centaur-tabs dap-mode shackle clang-format lsp-treemacs lsp-ui lsp-mode flycheck-clang-tidy flycheck doom-modeline company yasnippet treemacs-projectile projectile ag treemacs-magit treemacs-nerd-icons treemacs treesit-auto nerd-icons-completion nerd-icons-dired nerd-icons auto-package-update git-gutter)))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
