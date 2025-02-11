@@ -19,6 +19,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+(setq use-package-always-defer t)
 
 ;;; Eye candy
 (load-theme 'wombat)
@@ -60,7 +61,6 @@
  use-dialog-box nil)
 (keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete)
 (pixel-scroll-precision-mode)
-
 
 ;;; Programming stuff
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -123,11 +123,6 @@
 (global-set-key (kbd "\C-x\C-m") 'execute-extended-command)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-n") 'new-scratchpad)
-(global-set-key (kbd "<f4>") 'projectile-configure-project)
-(global-set-key (kbd "<f5>") 'projectile-compile-project)
-(global-set-key (kbd "<f6>") 'projectile-run-project)
-(global-set-key (kbd "<f7>") 'projectile-test-project)
-(global-set-key (kbd "<f8>") 'clang-format-buffer)
 
 ;;; Global configuration
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -138,9 +133,6 @@
   "Create a new scratchpad."
   (interactive)
   (switch-to-buffer (concat "scratch-" (number-to-string (abs (random))))))
-
-;;; Programming
-
 
 ;;; Use packages
 (require 'use-package)
@@ -190,9 +182,8 @@
   (setq treemacs-git-commit-diff-mode t)
   (setq treemacs-use-git-mode 'deferred)
   (setq treemacs-display-current-project-exclusively t)
-  (setq treemacs-project-follow-mode t)
-  :bind
-  ("<f9>" . my/treemacs))
+  (setq treemacs-project-follow-mode t))
+(global-set-key (kbd "<f8>") 'my/treemacs)
 
 (use-package treemacs-nerd-icons
   :ensure t
@@ -200,13 +191,9 @@
   (treemacs-load-theme "nerd-icons"))
 
 (use-package treemacs-magit
-  :ensure t)
-
-(use-package ag
-  :ensure t)
-
-(use-package auctex
-  :ensure t)
+  :ensure t
+  :config
+  (setopt magit-format-file-function #'magit-format-file-nerd-icons))
 
 (use-package projectile
   :ensure t
@@ -217,6 +204,8 @@
         compilation-scroll-output 't)
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
+(global-set-key (kbd "<f5>") 'projectile-compile-project)
+(global-set-key (kbd "<f6>") 'projectile-run-project)
 
 (use-package treemacs-projectile
   :ensure t)
@@ -228,6 +217,17 @@
 
 (use-package yasnippet
   :ensure t)
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
 
 (use-package magit
   :ensure t)
@@ -263,15 +263,9 @@
   :config
   (lsp-treemacs-sync-mode t))
 
-(use-package markdown-mode
-  :ensure t
-  :hook
-  (markdown-mode . lsp)
-  :config
-  (require 'lsp-marksman))
-
 (use-package clang-format
   :ensure t)
+(global-set-key (kbd "<f7>") 'clang-format-buffer)
 
 (use-package shackle
   :ensure t
@@ -310,7 +304,6 @@
   :bind
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
-(centaur-tabs-mode t)
 
 (use-package company
   :ensure t
@@ -366,4 +359,5 @@
 
 (provide 'init)
 (setq gc-cons-threshold 20000000)
+(run-with-idle-timer 1 nil(lambda () (setq gc-cons-threshold 20000000)))
 ;;; init.el ends here
