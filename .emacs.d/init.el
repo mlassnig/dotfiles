@@ -19,7 +19,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-;;(setq use-package-always-defer t)
 
 ;;; Eye candy
 (load-theme 'wombat)
@@ -56,10 +55,8 @@
  scroll-preserve-screen-position t
  scroll-step 1
  tab-width 8
- tab-always-indent 'complete
  uniquify-buffer-name-style 'forward
  use-dialog-box nil)
-(keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete)
 (pixel-scroll-precision-mode)
 
 ;;; Programming stuff
@@ -68,7 +65,9 @@
   :ensure t
   :hook (prog-mode . git-gutter-mode)
   :config
-  (setq git-gutter:update-interval 1))
+  (setq git-gutter:update-interval 1
+	git-gutter:unchanged-sign " ")
+  (set-face-background 'git-gutter:unchanged nil))
 
 ;;; Encoding
 (prefer-coding-system 'utf-8)
@@ -159,20 +158,15 @@
   :config
   (nerd-icons-completion-mode))
 
-(use-package treesit-auto
-  :ensure t
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  :config
-  (setq c-ts-mode-indent-offset 4
-	c-ts-mode-indent-style 'linux
-	treesit-font-lock-level 4))
-;;(treesit-auto-install-all)
-
-(defun my/treemacs ()
-  (interactive)
-  (treemacs)
-  (lsp-treemacs-symbols))
+(require 'treesit)
+(setq treesit-font-lock-level 4
+      treesit-language-source-alist '((c       "https://github.com/tree-sitter/tree-sitter-c" "master")
+				      (cpp     "https://github.com/tree-sitter/tree-sitter-cpp" "master")
+				      (python  "https://github.com/tree-sitter/tree-sitter-python" "master"))
+      c-ts-mode-indent-offset 4)
+(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (use-package treemacs
   :ensure t
@@ -183,7 +177,6 @@
   (setq treemacs-use-git-mode 'deferred)
   (setq treemacs-display-current-project-exclusively t)
   (setq treemacs-project-follow-mode t))
-(global-set-key (kbd "<f8>") 'my/treemacs)
 
 (use-package treemacs-nerd-icons
   :ensure t
@@ -201,14 +194,15 @@
   (projectile-mode +1)
   :config
   (setq projectile-project-search-path '("~/dev/")
-        compilation-scroll-output 't)
+        compilation-scroll-output t)
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
 (global-set-key (kbd "<f5>") 'projectile-compile-project)
 (global-set-key (kbd "<f6>") 'projectile-run-project)
 
 (use-package treemacs-projectile
-  :ensure t)
+  :ensure t
+  :after (treemacs projectile))
 
 (use-package yascroll
   :ensure t)
@@ -216,7 +210,9 @@
 ;  (global-yascroll-bar-mode t))
 
 (use-package yasnippet
-  :ensure t)
+  :ensure t
+  :config
+  (yas-global-mode 1))
 
 (use-package orderless
   :ensure t
@@ -248,13 +244,6 @@
   :hook
   (flycheck-mode . flycheck-clang-tidy-setup))
 
-(use-package lsp-mode
-  :ensure t
-  :config
-  (setq lsp-warn-no-matched-clients nil)
-  :hook
-  (prog-mode . lsp))
-
 (use-package lsp-ui
   :ensure t)
 
@@ -262,6 +251,31 @@
   :ensure t
   :config
   (lsp-treemacs-sync-mode t))
+
+(use-package lsp-mode
+  :ensure t
+  :config
+  (setq lsp-warn-no-matched-clients nil)
+  :hook
+  (prog-mode . lsp-deferred))
+
+(use-package company
+  :ensure t
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+              ("<tab>" . company-complete-selection)
+              ("<prior>" . company-previous-page)
+              ("<next>" . company-next-page))
+        (:map lsp-mode-map
+              ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.2))
+
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
 (use-package clang-format
   :ensure t)
@@ -305,14 +319,6 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
-(use-package company
-  :ensure t
-  :hook (prog-mode . company-mode)
-  :config
-  (setq lsp-completion-provider :capf)
-  :custom
-  (company-tooltip-align-annotations t))
-
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
   (or
@@ -348,7 +354,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   '(auto-package-update centaur-tabs clang-format company-box dape
+			 doom-modeline flycheck-clang-tidy git-gutter
+			 lsp-treemacs lsp-ui marginalia
+			 nerd-icons-completion nerd-icons-dired
+			 orderless shackle treemacs-magit
+			 treemacs-nerd-icons treemacs-projectile
+			 yascroll yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
